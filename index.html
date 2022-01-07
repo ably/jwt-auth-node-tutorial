@@ -10,7 +10,7 @@
         const realtime = new Ably.Realtime({ authUrl: '/auth' });
         realtime.connection.once('connected',  () => {
             console.log('Client connected to Ably using JWT')
-            alert("Client successfully connected Ably using JWT auth")
+            alert("Client successfully connected to Ably using JWT auth")
         })
     }
   </script>

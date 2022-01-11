@@ -2,7 +2,9 @@ const jwt = require("jsonwebtoken")
 require('dotenv').config()
 
 const apiKey = process.env.API_KEY
-const apiSecret = process.env.API_SECRET
+const keyParts = apiKey.split(':', 2);
+const keyName   = keyParts[0];
+const keySecret = keyParts[1];
 const ttlSeconds = 3600
 
 const jwtPayload = {
@@ -12,7 +14,7 @@ const jwtPayload = {
 
 const jwtOptions = {
     expiresIn: ttlSeconds,
-    keyid: `${apiKey}`
+    keyid: `${keyName}`
 }
 
 const express = require('express'),
@@ -21,7 +23,7 @@ app.use('/', express.static(__dirname))
 
 app.get('/auth', (req, res) => {
     console.log('Sucessfully connected to the server auth endpoint')
-    jwt.sign(jwtPayload, apiSecret, jwtOptions, (err, tokenId) => {
+    jwt.sign(jwtPayload, keySecret, jwtOptions, (err, tokenId) => {
         console.log('JSON Web Token signed by auth server')
         if (err) {
             console.trace()
